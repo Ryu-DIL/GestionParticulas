@@ -1,0 +1,885 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --bg:#0E1420;
+  --surface:#141B2C;
+  --surface-2:#1B2438;
+  --card:#1D2740;
+  --border:#2B3654;
+  --border-soft:#223050;
+  --text:#E8ECF6;
+  --text-muted:#8B94B0;
+  --accent:#49D4FF;
+  --accent-ink:#062230;
+  --accent-dim:rgba(73,212,255,.14);
+  --amber:#F4B740;
+  --amber-ink:#2E1E02;
+  --amber-dim:rgba(244,183,64,.14);
+  --danger:#FF6B6B;
+  --danger-ink:#2A0B0B;
+  --danger-dim:rgba(255,107,107,.12);
+  --success:#59D9A0;
+  --success-ink:#062017;
+  --success-dim:rgba(89,217,160,.14);
+  --radius:10px;
+  --font-display:'Space Grotesk',-apple-system,sans-serif;
+  --font-body:'IBM Plex Sans',-apple-system,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);}
+.app{max-width:1180px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3{font-family:var(--font-display);margin:0;}
+p{margin:0;}
+.muted{color:var(--text-muted);}
+.small{font-size:12.5px;}
+button,input,select{font-family:inherit;color:inherit;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 24px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.brand{display:flex;align-items:center;gap:12px;}
+.logo-svg{width:34px;height:34px;color:var(--text);flex-shrink:0;}
+.brand-title{font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:.01em;}
+.brand-sub{font-family:var(--font-mono);font-size:12.5px;color:var(--text-muted);}
+.top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+
+.badge{font-family:var(--font-mono);font-size:11.5px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);white-space:nowrap;}
+.badge-accent{color:var(--accent);border-color:rgba(73,212,255,.35);background:var(--accent-dim);}
+.badge-amber{color:var(--amber);border-color:rgba(244,183,64,.35);background:var(--amber-dim);}
+.badge-warn{color:var(--amber);border-color:rgba(244,183,64,.35);background:var(--amber-dim);}
+.badge-ok{color:var(--success);border-color:rgba(89,217,160,.3);background:var(--success-dim);}
+
+.tabbar{display:flex;gap:6px;overflow-x:auto;padding:10px 24px;border-bottom:1px solid var(--border);background:var(--surface);}
+.tab-btn{display:flex;align-items:center;gap:7px;background:transparent;border:1px solid transparent;color:var(--text-muted);padding:8px 14px;border-radius:8px;font-size:13.5px;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.tab-btn:hover{color:var(--text);background:var(--surface-2);}
+.tab-btn.active{color:var(--accent);background:var(--accent-dim);border-color:rgba(73,212,255,.3);}
+.tab-icon svg{width:16px;height:16px;display:block;}
+
+.view{flex:1;padding:22px 24px 60px;}
+
+.btn{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:500;padding:9px 15px;border-radius:8px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);cursor:pointer;line-height:1;}
+.btn svg{width:15px;height:15px;}
+.btn:hover{background:var(--card);border-color:var(--border-soft);}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
+.btn.primary:hover{filter:brightness(1.06);}
+.btn.secondary{background:transparent;border-color:var(--border);}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--text-muted);}
+.btn.ghost:hover{color:var(--text);background:var(--surface-2);}
+.btn.ghost.danger{color:var(--danger);}
+.btn.ghost.danger:hover{background:var(--danger-dim);}
+.btn.danger{background:var(--danger);border-color:var(--danger);color:var(--danger-ink);}
+.btn.danger:hover{filter:brightness(1.06);}
+.btn.small{padding:6px 11px;font-size:12.5px;}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--text-muted);cursor:pointer;}
+.icon-btn:hover{background:var(--surface-2);color:var(--text);}
+.icon-btn svg{width:16px;height:16px;}
+.icon-btn.small{width:24px;height:24px;}
+.icon-btn.small svg{width:12px;height:12px;}
+
+.toolbar{margin-bottom:18px;display:flex;flex-direction:column;gap:12px;}
+.search-row{display:flex;gap:10px;flex-wrap:wrap;}
+.search-row input,.search-row select{flex:1;min-width:180px;}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap;}
+.chip-btn{font-family:var(--font-mono);font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface-2);color:var(--text-muted);cursor:pointer;}
+.chip-btn:hover{color:var(--text);}
+.chip-btn.active{color:var(--accent);border-color:rgba(73,212,255,.35);background:var(--accent-dim);}
+
+.fichas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:18px;}
+.ficha-card{position:relative;background:linear-gradient(180deg,var(--card),var(--surface-2));border:1px solid var(--border);border-radius:4px 12px 12px 12px;padding:20px 16px 14px;display:flex;flex-direction:column;gap:2px;}
+.ficha-tab{position:absolute;top:-11px;left:14px;font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;padding:3px 9px;border-radius:5px 5px 2px 2px;color:#081018;}
+.ficha-head{margin-top:6px;display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.ficha-head h3{font-size:16.5px;line-height:1.25;}
+.ficha-simbolo{font-family:var(--font-mono);font-size:12px;color:var(--accent);background:var(--accent-dim);padding:2px 8px;border-radius:5px;white-space:nowrap;}
+.ficha-divider{border:none;border-top:1px dashed var(--border-soft);margin:10px 0 8px;}
+.ficha-data{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;margin:0 0 12px;}
+.ficha-data > div{min-width:0;}
+.ficha-data dt{font-size:11px;color:var(--text-muted);margin:0 0 2px;text-transform:uppercase;letter-spacing:.03em;}
+.ficha-data dd{margin:0;font-family:var(--font-mono);font-size:13px;overflow-wrap:break-word;}
+.ficha-actions{margin-top:auto;display:flex;gap:8px;padding-top:6px;border-top:1px solid var(--border-soft);}
+
+.empty-state{border:1px dashed var(--border);border-radius:12px;padding:40px 24px;text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center;}
+.empty-state h3{font-size:16px;}
+
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:18px;}
+.panel h2{font-size:16px;margin-bottom:6px;}
+.panel > p.muted{margin-bottom:14px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.field label{font-size:12.5px;color:var(--text-muted);}
+.field input,.field select{padding:9px 11px;border-radius:8px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-size:13.5px;}
+.field input:focus,.field select:focus{border-color:var(--accent);}
+.field input:disabled{opacity:.45;}
+.field-row{display:flex;align-items:flex-end;gap:14px;margin-bottom:14px;}
+.field-row .field{margin-bottom:0;flex:1;}
+.field-row .grow{flex:1;}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;}
+.check{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-muted);white-space:nowrap;padding-bottom:9px;}
+.check input{width:15px;height:15px;}
+.form-error{color:var(--danger);font-size:12.5px;background:var(--danger-dim);border:1px solid rgba(255,107,107,.3);padding:8px 11px;border-radius:8px;margin:4px 0 14px;}
+.segmented{display:flex;gap:8px;}
+.segmented label{display:flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;background:var(--surface-2);}
+.segmented input{accent-color:var(--accent);}
+.inline-form{display:flex;gap:8px;margin-top:12px;}
+.inline-form input{flex:1;padding:9px 11px;border-radius:8px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-size:13px;}
+
+.chip-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+.chip-item{display:flex;align-items:center;gap:8px;font-size:13.5px;background:var(--surface-2);border:1px solid var(--border-soft);border-radius:8px;padding:7px 10px;}
+.chip-item .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.chip-item button{margin-left:auto;}
+
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+.preset-card{text-align:left;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:5px;}
+.preset-card:hover{border-color:var(--accent);background:var(--card);}
+.preset-card strong{font-family:var(--font-display);font-size:14.5px;}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(6,9,16,.66);display:flex;align-items:flex-start;justify-content:center;padding:5vh 16px;overflow-y:auto;z-index:50;}
+.modal-panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;max-width:520px;width:100%;padding:22px 22px 20px;margin-bottom:5vh;}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.modal-head h3{font-size:16.5px;}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:6px;}
+
+.toast-root{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;gap:8px;z-index:80;max-width:320px;}
+.toast{background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--accent);color:var(--text);font-size:13px;padding:10px 14px;border-radius:8px;opacity:0;transform:translateY(6px);transition:opacity .18s,transform .18s;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast-success{border-left-color:var(--success);}
+.toast-error{border-left-color:var(--danger);}
+
+.app-footer{margin-top:8px;padding-top:14px;}
+
+@media (max-width:680px){
+  .topbar{padding:14px 16px;}
+  .view{padding:18px 16px 50px;}
+  .tabbar{padding:8px 16px;}
+  .two-col{grid-template-columns:1fr;}
+  .field-grid{grid-template-columns:1fr;}
+  .top-actions{width:100%;justify-content:space-between;}
+}
+</style>
+
+<div class="app" id="app">
+  <header class="topbar" id="topbar"></header>
+  <nav class="tabbar" id="tabbar"></nav>
+  <main class="view" id="view"></main>
+</div>
+<div id="modalRoot"></div>
+<div class="toast-root" id="toastRoot"></div>
+
+<script>
+var ICONS = {
+  grid:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.3" y1="15.3" x2="21" y2="21"/></svg>',
+  tag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 12.5 12.5 20a1.5 1.5 0 0 1-2 0L3 12.5V4a1 1 0 0 1 1-1h8.5z"/><circle cx="8" cy="7.5" r="1.1"/></svg>',
+  sliders:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="14" cy="6" r="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="8" cy="12" r="2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="16" cy="18" r="2"/></svg>',
+  folder:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2h8.5A1.5 1.5 0 0 1 21 8.5v10A1.5 1.5 0 0 1 19.5 20h-15A1.5 1.5 0 0 1 3 18.5z"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+  pencil:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h4L18.5 9.5a2 2 0 0 0-4-4L4 16z"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="7" x2="20" y2="7"/><path d="M6 7v13a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg>',
+  close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>',
+  download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5"/><path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg>',
+  upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21V9m0 0 4.5 4.5M12 9 7.5 13.5"/><path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 12.5 9.5 18 20 6"/></svg>'
+};
+
+var REDUCED_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var LOGO_SVG = '<svg class="logo-svg" viewBox="0 0 40 40" fill="none">' +
+  '<rect x="7" y="6" width="22" height="28" rx="3" stroke="currentColor" stroke-width="1.6"/>' +
+  '<line x1="11" y1="14" x2="21" y2="14" stroke="currentColor" stroke-width="1.6"/>' +
+  '<line x1="11" y1="19" x2="21" y2="19" stroke="currentColor" stroke-width="1.6"/>' +
+  '<line x1="11" y1="24" x2="18" y2="24" stroke="currentColor" stroke-width="1.6"/>' +
+  '<g transform="translate(27 27) rotate(-25)">' +
+  '<ellipse rx="9" ry="4" stroke="var(--accent)" stroke-width="1.3"/>' +
+  '<circle r="1.8" fill="var(--accent)">' +
+  (REDUCED_MOTION ? '' : '<animateMotion dur="6s" repeatCount="indefinite" path="M 9 0 A 9 4 0 1 1 -9 0 A 9 4 0 1 1 9 0"/>') +
+  '</circle></g></svg>';
+
+var TAG_COLORS = ['#49D4FF','#F4B740','#FF7AA8','#8B7CF6','#59D9A0','#FF8A5C','#5CC8E8','#C792EA'];
+function colorFor(name){
+  var s = String(name || '');
+  var h = 0;
+  for(var i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i)) >>> 0; }
+  return TAG_COLORS[h % TAG_COLORS.length];
+}
+
+function uid(){ return 'f_' + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function q(s){
+  var v = String(s == null ? '' : s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  v = v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return v;
+}
+function normAlpha(s){ return String(s||'').toLowerCase().replace(/\s+/g,''); }
+function alphaCmp(a,b){ var na=normAlpha(a), nb=normAlpha(b); return na<nb?-1:(na>nb?1:0); }
+
+var PRESETS = {
+  particulas: {
+    catalogo: 'Partículas elementales',
+    formato: 'cientifica',
+    etiquetas: {
+      nombre:'Nombre de la partícula', simbolo:'Símbolo', masa:'Masa (eV/c²)', carga:'Carga',
+      familia:'Familia', grupo:'Grupo', pais:'País de descubrimiento', anyo:'Año de descubrimiento'
+    },
+    familias: ['Fermiones','Bosones'],
+    grupos: ['Leptones','Quarks','Gauge'],
+    fichas: [
+      { nombre:'Fuerza débil +', simbolo:'W+', masa:8.04e10, carga:1, familia:'Bosones', grupo:'Gauge', pais:'', anyo:-1 },
+      { nombre:'Electrón', simbolo:'e', masa:5.11e5, carga:-1, familia:'Fermiones', grupo:'Leptones', pais:'Reino Unido', anyo:1896 },
+      { nombre:'Top o cima', simbolo:'t', masa:1.73e11, carga:0.667, familia:'Fermiones', grupo:'Quarks', pais:'Estados Unidos', anyo:1995 }
+    ]
+  },
+  personajes: {
+    catalogo: 'Personajes memorables',
+    formato: 'fija',
+    etiquetas: {
+      nombre:'Nombre del personaje', simbolo:'Alias', masa:'Año de nacimiento', carga:'Actitud',
+      familia:'Profesión', grupo:'Colectivo de', pais:'Lugar de nacimiento', anyo:'Año de muerte'
+    },
+    familias: ['Cientificos','Personajes','Historicos','Ficcion','Hacker'],
+    grupos: ['Raritos','Dioses','Grandes','Elegido'],
+    fichas: [
+      { nombre:'Caroline Herschel', simbolo:'Lunar', masa:1750, carga:0, familia:'Cientificos', grupo:'?', pais:'Hannover (Alemania)', anyo:1848 },
+      { nombre:'Albert Einstein', simbolo:'mc2', masa:1879, carga:1, familia:'Cientificos', grupo:'Grandes', pais:'Ulm (Reino de Wurtemberg)', anyo:1955 },
+      { nombre:'Thomas A. Anderson', simbolo:'Neo', masa:1962, carga:-1, familia:'Personajes', grupo:'Elegido', pais:'Lower Downtown, Capital City', anyo:-1 },
+      { nombre:'Sheldon Lee Cooper', simbolo:'Shelly', masa:-1, carga:-1, familia:'Personajes', grupo:'Raritos', pais:'Medford, Texas', anyo:-1 }
+    ]
+  }
+};
+
+var state = null;
+var ui = {
+  tab:'fichas', query:'', filterFamilia:'',
+  search:{ tipo:'nombre', q:'', num:'', familia:'', grupo:'', results:null, ran:false },
+  dirty:false, editingId:null
+};
+var _pendingAction = null;
+
+function loadCatalog(data, opts){
+  opts = opts || {};
+  state = {
+    catalogo: data.catalogo || 'Catálogo sin nombre',
+    formato: data.formato === 'fija' ? 'fija' : 'cientifica',
+    etiquetas: Object.assign({nombre:'Nombre',simbolo:'Símbolo',masa:'Masa',carga:'Carga',familia:'Familia',grupo:'Grupo',pais:'País',anyo:'Año'}, data.etiquetas || {}),
+    familias: Array.isArray(data.familias) ? data.familias.slice() : [],
+    grupos: Array.isArray(data.grupos) ? data.grupos.slice() : [],
+    fichas: Array.isArray(data.fichas) ? data.fichas.map(function(f){
+      return {
+        id: f.id || uid(),
+        nombre: f.nombre || '', simbolo: f.simbolo || '',
+        masa: f.masa === undefined || f.masa === null || f.masa === '' ? -1 : Number(f.masa),
+        carga: f.carga === undefined || f.carga === null || f.carga === '' ? 0 : Number(f.carga),
+        familia: f.familia || '?', grupo: f.grupo || '?',
+        pais: f.pais || '',
+        anyo: f.anyo === undefined || f.anyo === null || f.anyo === '' ? -1 : Number(f.anyo)
+      };
+    }) : []
+  };
+  ui.dirty = !!opts.dirty;
+  ui.tab = 'fichas';
+  ui.query = ''; ui.filterFamilia = '';
+  ui.search = { tipo:'nombre', q:'', num:'', familia:'', grupo:'', results:null, ran:false };
+  render();
+}
+
+function markDirty(){ ui.dirty = true; renderTopbar(); }
+
+function sortedFichas(list){
+  return list.slice().sort(function(a,b){
+    var c = alphaCmp(a.familia,b.familia); if(c) return c;
+    c = alphaCmp(a.grupo,b.grupo); if(c) return c;
+    return alphaCmp(a.nombre,b.nombre);
+  });
+}
+
+function fmtMasa(v){
+  var n = Number(v);
+  if(isNaN(n) || n === -1) return 'Desconocido';
+  if(state.formato === 'fija'){
+    return n.toLocaleString('es-ES', {maximumFractionDigits:3});
+  }
+  if(n === 0) return '0.000e+000';
+  var sign = n < 0 ? '-' : '';
+  var abs = Math.abs(n);
+  var exp = Math.floor(Math.log10(abs));
+  var mantissa = abs / Math.pow(10, exp);
+  if(mantissa >= 9.9995){ mantissa /= 10; exp += 1; }
+  var expStr = String(Math.abs(exp)).padStart(3,'0');
+  return sign + mantissa.toFixed(3) + 'e' + (exp<0?'-':'+') + expStr;
+}
+function fmtCarga(v){
+  var n = Number(v);
+  if(isNaN(n) || n === 0) return '0';
+  var sign = n > 0 ? '+' : '';
+  if(Number.isInteger(n)) return sign + n.toString();
+  return sign + n.toFixed(3);
+}
+function fmtCat(v){ return (v == null || v === '' || v === '?') ? 'Desconocido' : esc(v); }
+function fmtPais(v){ return (!v) ? 'Desconocido' : esc(v); }
+function fmtAnyo(v){ var n = Number(v); return n === -1 ? 'Desconocido' : String(n); }
+
+function render(){ renderTopbar(); renderTabbar(); renderView(); }
+
+function renderTopbar(){
+  var top = document.getElementById('topbar');
+  top.innerHTML =
+    '<div class="brand"><span>' + LOGO_SVG + '</span><div>' +
+      '<div class="brand-title">Gestor de fichas</div>' +
+      '<div class="brand-sub">' + esc(state.catalogo) + '</div>' +
+    '</div></div>' +
+    '<div class="top-actions">' +
+      '<span class="badge ' + (state.formato==='cientifica'?'badge-accent':'badge-amber') + '">' + (state.formato==='cientifica'?'Notación científica':'Notación coma fija') + '</span>' +
+      '<span class="badge ' + (ui.dirty?'badge-warn':'badge-ok') + '">' + (ui.dirty?'Cambios sin exportar':'Todo exportado') + '</span>' +
+      '<button class="btn primary" onclick="openFichaForm()">' + ICONS.plus + ' Nueva ficha</button>' +
+    '</div>';
+}
+
+function renderTabbar(){
+  var tabs = [
+    {k:'fichas', label:'Fichas', icon:ICONS.grid},
+    {k:'buscar', label:'Buscar', icon:ICONS.search},
+    {k:'familias', label:(state.etiquetas.familia + ' / ' + state.etiquetas.grupo), icon:ICONS.tag},
+    {k:'config', label:'Configuración', icon:ICONS.sliders},
+    {k:'catalogo', label:'Catálogo', icon:ICONS.folder}
+  ];
+  document.getElementById('tabbar').innerHTML = tabs.map(function(t){
+    return '<button class="tab-btn ' + (ui.tab===t.k?'active':'') + '" onclick="setTab(\'' + t.k + '\')">' +
+      '<span class="tab-icon">' + t.icon + '</span>' + esc(t.label) + '</button>';
+  }).join('');
+}
+
+function setTab(k){ ui.tab = k; render(); }
+
+function renderView(){
+  var v = document.getElementById('view');
+  if(ui.tab==='fichas') v.innerHTML = viewFichas();
+  else if(ui.tab==='buscar') v.innerHTML = viewBuscar();
+  else if(ui.tab==='familias') v.innerHTML = viewFamilias();
+  else if(ui.tab==='config') v.innerHTML = viewConfig();
+  else if(ui.tab==='catalogo') v.innerHTML = viewCatalogo();
+}
+
+function emptyState(title, body, actionHtml){
+  return '<div class="empty-state"><h3>' + esc(title) + '</h3><p class="muted">' + esc(body) + '</p>' + (actionHtml||'') + '</div>';
+}
+
+function fichaCard(f){
+  var e = state.etiquetas;
+  var col = colorFor(f.familia);
+  var tabLabel = (f.familia === '?' || !f.familia) ? '—' : f.familia.slice(0,3).toUpperCase();
+  return '<article class="ficha-card">' +
+    '<span class="ficha-tab" style="background:' + col + '">' + esc(tabLabel) + '</span>' +
+    '<header class="ficha-head"><h3>' + esc(f.nombre) + '</h3><span class="ficha-simbolo">' + esc(f.simbolo) + '</span></header>' +
+    '<hr class="ficha-divider">' +
+    '<dl class="ficha-data">' +
+      '<div><dt>' + esc(e.masa) + '</dt><dd>' + fmtMasa(f.masa) + '</dd></div>' +
+      '<div><dt>' + esc(e.carga) + '</dt><dd>' + fmtCarga(f.carga) + '</dd></div>' +
+      '<div><dt>' + esc(e.familia) + '</dt><dd>' + fmtCat(f.familia) + '</dd></div>' +
+      '<div><dt>' + esc(e.grupo) + '</dt><dd>' + fmtCat(f.grupo) + '</dd></div>' +
+      '<div><dt>' + esc(e.pais) + '</dt><dd>' + fmtPais(f.pais) + '</dd></div>' +
+      '<div><dt>' + esc(e.anyo) + '</dt><dd>' + fmtAnyo(f.anyo) + '</dd></div>' +
+    '</dl>' +
+    '<footer class="ficha-actions">' +
+      '<button class="btn ghost small" onclick="openFichaForm(\'' + f.id + '\')">' + ICONS.pencil + ' Editar</button>' +
+      '<button class="btn ghost small danger" onclick="deleteFicha(\'' + f.id + '\')">' + ICONS.trash + ' Borrar</button>' +
+    '</footer></article>';
+}
+
+function famChipsHtml(){
+  var opts = [''].concat(state.familias);
+  return opts.map(function(f){
+    var label = f === '' ? 'Todas' : f;
+    return '<button class="chip-btn ' + (ui.filterFamilia===f?'active':'') + '" onclick="setFamiliaFilter(\'' + q(f) + '\')">' + esc(label) + '</button>';
+  }).join('');
+}
+
+function computeFichasGridHtml(){
+  var list = sortedFichas(state.fichas).filter(function(f){
+    if(ui.filterFamilia && f.familia !== ui.filterFamilia) return false;
+    if(ui.query){
+      var s = ui.query.toLowerCase();
+      if(f.nombre.toLowerCase().indexOf(s)===-1 && f.simbolo.toLowerCase().indexOf(s)===-1) return false;
+    }
+    return true;
+  });
+  if(list.length){
+    return '<div class="fichas-grid">' + list.map(fichaCard).join('') + '</div>';
+  }
+  if(state.fichas.length){
+    return emptyState('Sin coincidencias', 'Prueba a cambiar el filtro o el texto de búsqueda.');
+  }
+  return emptyState('Todavía no hay fichas', 'Crea la primera ficha de este catálogo para empezar.',
+    '<button class="btn primary" onclick="openFichaForm()">' + ICONS.plus + ' Nueva ficha</button>');
+}
+
+function viewFichas(){
+  return '<section class="toolbar">' +
+    '<div class="search-row">' +
+      '<input id="quickFilter" placeholder="Filtrar por nombre o símbolo..." value="' + esc(ui.query) + '" oninput="setQueryFilter(this.value)">' +
+    '</div>' +
+    '<div class="chip-row" id="famChipRow">' + famChipsHtml() + '</div>' +
+  '</section>' +
+  '<section id="fichasGridWrap">' + computeFichasGridHtml() + '</section>';
+}
+
+function setQueryFilter(v){
+  ui.query = v;
+  var wrap = document.getElementById('fichasGridWrap');
+  if(wrap) wrap.innerHTML = computeFichasGridHtml();
+}
+function setFamiliaFilter(f){
+  ui.filterFamilia = f;
+  var row = document.getElementById('famChipRow');
+  if(row) row.innerHTML = famChipsHtml();
+  var wrap = document.getElementById('fichasGridWrap');
+  if(wrap) wrap.innerHTML = computeFichasGridHtml();
+}
+
+function openFichaForm(id){
+  var editing = id ? state.fichas.find(function(f){ return f.id===id; }) : null;
+  ui.editingId = id || null;
+  var e = state.etiquetas;
+  var famList = ['?'].concat(state.familias);
+  var grpList = ['?'].concat(state.grupos);
+  var famDefault = editing ? editing.familia : (state.familias[0] || '?');
+  var grpDefault = editing ? editing.grupo : (state.grupos[0] || '?');
+  var famOptions = famList.map(function(f){
+    return '<option value="' + esc(f) + '" ' + (f===famDefault?'selected':'') + '>' + (f==='?'?'Desconocido':esc(f)) + '</option>';
+  }).join('');
+  var grpOptions = grpList.map(function(g){
+    return '<option value="' + esc(g) + '" ' + (g===grpDefault?'selected':'') + '>' + (g==='?'?'Desconocido':esc(g)) + '</option>';
+  }).join('');
+  var masaUnknown = editing ? Number(editing.masa)===-1 : false;
+  var anyoUnknown = editing ? Number(editing.anyo)===-1 : false;
+
+  var body = '<form id="fichaForm" onsubmit="return submitFichaForm(event)">' +
+    '<div class="field"><label>' + esc(e.nombre) + '</label><input required id="ff_nombre" value="' + (editing?esc(editing.nombre):'') + '"></div>' +
+    '<div class="field"><label>' + esc(e.simbolo) + '</label><input required id="ff_simbolo" value="' + (editing?esc(editing.simbolo):'') + '"></div>' +
+    '<div class="field-row">' +
+      '<div class="field grow"><label>' + esc(e.masa) + '</label><input type="number" step="any" id="ff_masa" value="' + (editing && !masaUnknown ? editing.masa : '') + '" ' + (masaUnknown?'disabled':'') + '></div>' +
+      '<label class="check"><input type="checkbox" id="ff_masa_unk" ' + (masaUnknown?'checked':'') + ' onchange="var i=document.getElementById(\'ff_masa\'); i.disabled=this.checked; if(this.checked) i.value=\'\';"> Desconocido</label>' +
+    '</div>' +
+    '<div class="field"><label>' + esc(e.carga) + ' <span class="muted small">(-1 a 1)</span></label><input type="number" step="0.001" min="-1" max="1" id="ff_carga" value="' + (editing?editing.carga:0) + '" required></div>' +
+    '<div class="field"><label>' + esc(e.familia) + '</label><select id="ff_familia">' + famOptions + '</select></div>' +
+    '<div class="field"><label>' + esc(e.grupo) + '</label><select id="ff_grupo">' + grpOptions + '</select></div>' +
+    '<div class="field"><label>' + esc(e.pais) + ' <span class="muted small">(opcional)</span></label><input id="ff_pais" value="' + (editing?esc(editing.pais):'') + '"></div>' +
+    '<div class="field-row">' +
+      '<div class="field grow"><label>' + esc(e.anyo) + '</label><input type="number" step="1" id="ff_anyo" value="' + (editing && !anyoUnknown ? editing.anyo : '') + '" ' + (anyoUnknown?'disabled':'') + '></div>' +
+      '<label class="check"><input type="checkbox" id="ff_anyo_unk" ' + (anyoUnknown?'checked':'') + ' onchange="var i=document.getElementById(\'ff_anyo\'); i.disabled=this.checked; if(this.checked) i.value=\'\';"> Desconocido</label>' +
+    '</div>' +
+    '<p id="ff_error" class="form-error" hidden></p>' +
+    '<div class="modal-actions">' +
+      '<button type="button" class="btn ghost" onclick="closeModal()">Cancelar</button>' +
+      '<button type="submit" class="btn primary">' + (editing?'Guardar cambios':'Crear ficha') + '</button>' +
+    '</div></form>';
+  openModal(editing ? 'Editar ficha' : 'Nueva ficha', body);
+}
+
+function submitFichaForm(ev){
+  ev.preventDefault();
+  var nombre = document.getElementById('ff_nombre').value.trim();
+  var simbolo = document.getElementById('ff_simbolo').value.trim();
+  var masaUnk = document.getElementById('ff_masa_unk').checked;
+  var masaRaw = document.getElementById('ff_masa').value;
+  var carga = Number(document.getElementById('ff_carga').value);
+  var familia = document.getElementById('ff_familia').value;
+  var grupo = document.getElementById('ff_grupo').value;
+  var pais = document.getElementById('ff_pais').value.trim();
+  var anyoUnk = document.getElementById('ff_anyo_unk').checked;
+  var anyoRaw = document.getElementById('ff_anyo').value;
+  var e = state.etiquetas;
+
+  function showErr(msg){ var p=document.getElementById('ff_error'); p.textContent=msg; p.hidden=false; }
+
+  if(!nombre || !simbolo){ showErr('El ' + e.nombre.toLowerCase() + ' y el ' + e.simbolo.toLowerCase() + ' son obligatorios.'); return false; }
+  var dup = state.fichas.find(function(f){ return f.id !== ui.editingId && f.nombre === nombre && f.simbolo === simbolo; });
+  if(dup){ showErr('Ya existe una ficha con ese ' + e.nombre.toLowerCase() + ' y ' + e.simbolo.toLowerCase() + '.'); return false; }
+
+  var masa;
+  if(masaUnk){ masa = -1; }
+  else {
+    masa = Number(masaRaw);
+    if(masaRaw === '' || isNaN(masa) || masa < 0){ showErr(e.masa + ': introduce un número igual o mayor que 0, o marca "Desconocido".'); return false; }
+  }
+  if(isNaN(carga) || carga < -1 || carga > 1){ showErr(e.carga + ': debe estar entre -1 y 1.'); return false; }
+  var anyo;
+  if(anyoUnk){ anyo = -1; }
+  else {
+    anyo = Number(anyoRaw);
+    if(anyoRaw === '' || !Number.isInteger(anyo) || anyo < 0){ showErr(e.anyo + ': introduce un año válido, o marca "Desconocido".'); return false; }
+  }
+
+  var record = { id: ui.editingId || uid(), nombre:nombre, simbolo:simbolo, masa:masa, carga:carga, familia:familia, grupo:grupo, pais:pais, anyo:anyo };
+  if(ui.editingId){
+    var i = state.fichas.findIndex(function(f){ return f.id === ui.editingId; });
+    state.fichas[i] = record;
+    toast('Ficha actualizada.', 'success');
+  } else {
+    state.fichas.push(record);
+    toast('Ficha creada.', 'success');
+  }
+  markDirty();
+  closeModal();
+  renderView();
+  return false;
+}
+
+function deleteFicha(id){
+  var f = state.fichas.find(function(x){ return x.id === id; });
+  if(!f) return;
+  openModal('Borrar ficha', '<p>¿Seguro que quieres borrar <strong>' + esc(f.nombre) + '</strong> (' + esc(f.simbolo) + ')? Esta acción no se puede deshacer.</p>' +
+    '<div class="modal-actions"><button class="btn ghost" onclick="closeModal()">Cancelar</button>' +
+    '<button class="btn danger" onclick="confirmDeleteFicha(\'' + id + '\')">Borrar</button></div>');
+}
+function confirmDeleteFicha(id){
+  state.fichas = state.fichas.filter(function(f){ return f.id !== id; });
+  markDirty();
+  closeModal();
+  renderView();
+  toast('Ficha eliminada.', 'info');
+}
+
+function viewBuscar(){
+  var e = state.etiquetas;
+  var s = ui.search;
+  var tipos = [
+    {k:'nombre', label:e.nombre + ' exacto'},
+    {k:'contiene', label:e.nombre + ' contiene...'},
+    {k:'masa', label:e.masa + ' menor que...'},
+    {k:'familia', label:'Por ' + e.familia},
+    {k:'familiagrupo', label:'Por ' + e.familia + ' y ' + e.grupo}
+  ];
+  var tipoButtons = tipos.map(function(t){
+    return '<button class="chip-btn ' + (s.tipo===t.k?'active':'') + '" onclick="setSearchTipo(\'' + t.k + '\')">' + esc(t.label) + '</button>';
+  }).join('');
+
+  var inputHtml = '';
+  if(s.tipo==='nombre' || s.tipo==='contiene'){
+    inputHtml = '<input id="s_texto" placeholder="Escribe aquí..." value="' + esc(s.q) + '">';
+  } else if(s.tipo==='masa'){
+    inputHtml = '<input id="s_num" type="number" step="any" min="0" placeholder="Valor máximo" value="' + esc(s.num) + '">';
+  } else if(s.tipo==='familia'){
+    inputHtml = '<select id="s_familia">' + state.familias.map(function(f){ return '<option value="'+esc(f)+'" '+(s.familia===f?'selected':'')+'>'+esc(f)+'</option>'; }).join('') + '</select>';
+  } else if(s.tipo==='familiagrupo'){
+    inputHtml = '<select id="s_familia">' + state.familias.map(function(f){ return '<option value="'+esc(f)+'" '+(s.familia===f?'selected':'')+'>'+esc(f)+'</option>'; }).join('') + '</select>' +
+      '<select id="s_grupo">' + state.grupos.map(function(g){ return '<option value="'+esc(g)+'" '+(s.grupo===g?'selected':'')+'>'+esc(g)+'</option>'; }).join('') + '</select>';
+  }
+
+  var resultsHtml = '';
+  if(s.ran){
+    if(!s.results || s.results.length===0){
+      resultsHtml = emptyState('Sin resultados', 'No se ha encontrado ninguna ficha con esos criterios.');
+    } else {
+      resultsHtml = '<p class="muted small" style="margin-bottom:12px">' + s.results.length + ' resultado(s)</p><div class="fichas-grid">' + s.results.map(fichaCard).join('') + '</div>';
+    }
+  }
+
+  return '<section class="panel">' +
+      '<h2>Buscar</h2>' +
+      '<div class="chip-row" style="margin-bottom:14px">' + tipoButtons + '</div>' +
+      '<div class="search-row">' + inputHtml + '<button class="btn primary" onclick="runSearch()">' + ICONS.search + ' Buscar</button></div>' +
+    '</section>' +
+    '<section id="searchResults">' + resultsHtml + '</section>';
+}
+
+function setSearchTipo(k){ ui.search.tipo = k; ui.search.ran = false; ui.search.results = null; renderView(); }
+
+function runSearch(){
+  var s = ui.search;
+  var results = [];
+  if(s.tipo==='nombre'){
+    s.q = document.getElementById('s_texto').value.trim();
+    results = state.fichas.filter(function(f){ return f.nombre === s.q; });
+  } else if(s.tipo==='contiene'){
+    s.q = document.getElementById('s_texto').value.trim();
+    var ql = s.q.toLowerCase();
+    results = ql ? state.fichas.filter(function(f){ return f.nombre.toLowerCase().indexOf(ql) !== -1; }) : [];
+  } else if(s.tipo==='masa'){
+    s.num = document.getElementById('s_num').value;
+    var n = Number(s.num);
+    results = (s.num !== '' && !isNaN(n)) ? state.fichas.filter(function(f){ return f.masa !== -1 && f.masa <= n; }) : [];
+  } else if(s.tipo==='familia'){
+    var selF = document.getElementById('s_familia');
+    s.familia = selF ? selF.value : '';
+    results = state.fichas.filter(function(f){ return f.familia === s.familia; });
+  } else if(s.tipo==='familiagrupo'){
+    var selF2 = document.getElementById('s_familia');
+    var selG2 = document.getElementById('s_grupo');
+    s.familia = selF2 ? selF2.value : '';
+    s.grupo = selG2 ? selG2.value : '';
+    results = state.fichas.filter(function(f){ return f.familia === s.familia && f.grupo === s.grupo; });
+  }
+  s.results = sortedFichas(results);
+  s.ran = true;
+  renderView();
+}
+
+function viewFamilias(){
+  var e = state.etiquetas;
+  var famList = state.familias.map(function(f){
+    var count = state.fichas.filter(function(x){ return x.familia===f; }).length;
+    return '<li class="chip-item"><span class="dot" style="background:' + colorFor(f) + '"></span>' + esc(f) + ' <span class="muted small">(' + count + ')</span>' +
+      '<button class="icon-btn small" title="Eliminar" onclick="removeFamilia(\'' + q(f) + '\')">' + ICONS.close + '</button></li>';
+  }).join('') || '<li class="muted small">Ninguna todavía.</li>';
+
+  var grpList = state.grupos.map(function(g){
+    var count = state.fichas.filter(function(x){ return x.grupo===g; }).length;
+    return '<li class="chip-item"><span class="dot" style="background:' + colorFor(g) + '"></span>' + esc(g) + ' <span class="muted small">(' + count + ')</span>' +
+      '<button class="icon-btn small" title="Eliminar" onclick="removeGrupo(\'' + q(g) + '\')">' + ICONS.close + '</button></li>';
+  }).join('') || '<li class="muted small">Ninguno todavía.</li>';
+
+  return '<section class="two-col">' +
+    '<div class="panel"><h2>' + esc(e.familia) + 's válidas</h2>' +
+      '<p class="muted small">Categorías permitidas para el campo "' + esc(e.familia) + '".</p>' +
+      '<ul class="chip-list">' + famList + '</ul>' +
+      '<form class="inline-form" onsubmit="return addFamilia(event)"><input id="newFamilia" placeholder="Añadir nueva..."><button class="btn secondary" type="submit">' + ICONS.plus + ' Añadir</button></form>' +
+    '</div>' +
+    '<div class="panel"><h2>' + esc(e.grupo) + 's válidos</h2>' +
+      '<p class="muted small">Categorías permitidas para el campo "' + esc(e.grupo) + '".</p>' +
+      '<ul class="chip-list">' + grpList + '</ul>' +
+      '<form class="inline-form" onsubmit="return addGrupo(event)"><input id="newGrupo" placeholder="Añadir nuevo..."><button class="btn secondary" type="submit">' + ICONS.plus + ' Añadir</button></form>' +
+    '</div></section>';
+}
+
+function addFamilia(ev){
+  ev.preventDefault();
+  var inp = document.getElementById('newFamilia');
+  var v = inp.value.trim();
+  if(!v) return false;
+  if(v==='?'){ toast('"?" está reservado para "Desconocido".','error'); return false; }
+  if(state.familias.some(function(f){ return normAlpha(f)===normAlpha(v); })){ toast('Esa categoría ya existe.','error'); return false; }
+  state.familias.push(v);
+  markDirty();
+  renderView();
+  toast('Categoría añadida.','success');
+  return false;
+}
+function removeFamilia(name){
+  var count = state.fichas.filter(function(f){ return f.familia===name; }).length;
+  if(count>0){ toast('No se puede eliminar: ' + count + ' ficha(s) la usan.','error'); return; }
+  state.familias = state.familias.filter(function(f){ return f!==name; });
+  markDirty();
+  renderView();
+}
+function addGrupo(ev){
+  ev.preventDefault();
+  var inp = document.getElementById('newGrupo');
+  var v = inp.value.trim();
+  if(!v) return false;
+  if(v==='?'){ toast('"?" está reservado para "Desconocido".','error'); return false; }
+  if(state.grupos.some(function(g){ return normAlpha(g)===normAlpha(v); })){ toast('Esa categoría ya existe.','error'); return false; }
+  state.grupos.push(v);
+  markDirty();
+  renderView();
+  toast('Categoría añadida.','success');
+  return false;
+}
+function removeGrupo(name){
+  var count = state.fichas.filter(function(f){ return f.grupo===name; }).length;
+  if(count>0){ toast('No se puede eliminar: ' + count + ' ficha(s) lo usan.','error'); return; }
+  state.grupos = state.grupos.filter(function(g){ return g!==name; });
+  markDirty();
+  renderView();
+}
+
+function viewConfig(){
+  var e = state.etiquetas;
+  var fields = ['nombre','simbolo','masa','carga','familia','grupo','pais','anyo'];
+  var fieldRows = fields.map(function(k){
+    return '<div class="field"><label>Etiqueta para "' + k + '"</label><input id="cfg_' + k + '" value="' + esc(e[k]) + '"></div>';
+  }).join('');
+
+  return '<section class="panel">' +
+    '<h2>Configuración</h2>' +
+    '<p class="muted small">Estas etiquetas son las que verás en las fichas y formularios. Los mismos ocho campos sirven para catálogos muy distintos: por ejemplo, usar "Masa" como "Año de nacimiento".</p>' +
+    '<form onsubmit="return saveConfig(event)">' +
+      '<div class="field"><label>Notación numérica</label><div class="segmented">' +
+        '<label><input type="radio" name="cfg_formato" value="cientifica" ' + (state.formato==='cientifica'?'checked':'') + '> Científica</label>' +
+        '<label><input type="radio" name="cfg_formato" value="fija" ' + (state.formato==='fija'?'checked':'') + '> Coma fija</label>' +
+      '</div></div>' +
+      '<div class="field-grid">' + fieldRows + '</div>' +
+      '<p id="cfg_error" class="form-error" hidden></p>' +
+      '<div class="modal-actions" style="justify-content:flex-start"><button type="submit" class="btn primary">' + ICONS.check + ' Guardar configuración</button></div>' +
+    '</form></section>';
+}
+
+function saveConfig(ev){
+  ev.preventDefault();
+  var fields = ['nombre','simbolo','masa','carga','familia','grupo','pais','anyo'];
+  var vals = {};
+  var seen = {};
+  for(var i=0;i<fields.length;i++){
+    var k = fields[i];
+    var v = document.getElementById('cfg_'+k).value.trim();
+    if(!v){ showCfgError('Ninguna etiqueta puede estar vacía.'); return false; }
+    var norm = v.toLowerCase();
+    if(seen[norm]){ showCfgError('La etiqueta "' + v + '" está repetida.'); return false; }
+    seen[norm] = true;
+    vals[k] = v;
+  }
+  var formatoInput = document.querySelector('input[name="cfg_formato"]:checked');
+  state.etiquetas = vals;
+  state.formato = formatoInput ? formatoInput.value : state.formato;
+  markDirty();
+  render();
+  toast('Configuración guardada.','success');
+  return false;
+}
+function showCfgError(msg){ var p=document.getElementById('cfg_error'); p.textContent=msg; p.hidden=false; }
+
+function viewCatalogo(){
+  return '<section class="panel">' +
+      '<h2>Catálogo actual</h2>' +
+      '<p style="margin-bottom:14px"><strong>' + esc(state.catalogo) + '</strong> · ' + state.fichas.length + ' ficha(s) · notación ' + (state.formato==='cientifica'?'científica':'coma fija') + '</p>' +
+      '<div class="modal-actions" style="justify-content:flex-start"><button class="btn primary" onclick="exportCatalog()">' + ICONS.download + ' Exportar catálogo (.json)</button></div>' +
+    '</section>' +
+    '<section class="panel"><h2>Cargar un catálogo de ejemplo</h2>' +
+      '<div class="preset-grid">' +
+        '<button class="preset-card" onclick="requestLoadPreset(\'particulas\')"><strong>Partículas elementales</strong><span class="muted small">Notación científica · Fermiones / Bosones</span></button>' +
+        '<button class="preset-card" onclick="requestLoadPreset(\'personajes\')"><strong>Personajes memorables</strong><span class="muted small">Notación coma fija · mismo motor, otro dominio</span></button>' +
+      '</div>' +
+    '</section>' +
+    '<section class="panel"><h2>Otras opciones</h2>' +
+      '<div class="modal-actions" style="justify-content:flex-start;flex-wrap:wrap">' +
+        '<button class="btn secondary" onclick="requestBlankCatalog()">' + ICONS.plus + ' Catálogo en blanco</button>' +
+        '<label class="btn secondary" style="cursor:pointer">' + ICONS.upload + ' Importar catálogo (.json)<input type="file" accept="application/json" style="display:none" onchange="importCatalog(event)"></label>' +
+      '</div>' +
+      '<p class="muted small app-footer">Inspirado en el catálogo de fichas configurables de tu proyecto original en C++, ahora con interfaz gráfica.</p>' +
+    '</section>';
+}
+
+function guardUnsaved(action){
+  if(!ui.dirty){ action(); return; }
+  _pendingAction = action;
+  openModal('Cambios sin exportar', '<p>Este catálogo tiene cambios que todavía no has exportado. Si continúas ahora, se perderán.</p>' +
+    '<div class="modal-actions">' +
+      '<button class="btn ghost" onclick="closeModal(); _pendingAction=null;">Cancelar</button>' +
+      '<button class="btn secondary" onclick="closeModal(); exportCatalog(); if(_pendingAction){_pendingAction(); _pendingAction=null;}">Exportar y continuar</button>' +
+      '<button class="btn danger" onclick="closeModal(); if(_pendingAction){_pendingAction(); _pendingAction=null;}">Descartar y continuar</button>' +
+    '</div>');
+}
+function requestLoadPreset(key){ guardUnsaved(function(){ loadCatalog(PRESETS[key], {dirty:false}); }); }
+function requestBlankCatalog(){ guardUnsaved(function(){ openBlankWizard(); }); }
+
+function openBlankWizard(){
+  var body = '<form id="blankForm" onsubmit="return submitBlankWizard(event)">' +
+    '<div class="field"><label>Nombre del catálogo</label><input id="bw_nombre" required placeholder="p. ej. Mi colección"></div>' +
+    '<div class="field"><label>Notación numérica</label><div class="segmented">' +
+      '<label><input type="radio" name="bw_formato" value="cientifica" checked> Científica</label>' +
+      '<label><input type="radio" name="bw_formato" value="fija"> Coma fija</label>' +
+    '</div></div>' +
+    '<div class="field"><label>Categorías (Familia) — separadas por comas</label><input id="bw_familias" placeholder="p. ej. Tipo A, Tipo B"></div>' +
+    '<div class="field"><label>Subcategorías (Grupo) — separadas por comas</label><input id="bw_grupos" placeholder="p. ej. Grupo 1, Grupo 2"></div>' +
+    '<p class="muted small" style="margin-bottom:14px">Podrás renombrar los ocho campos y añadir más categorías después, desde Configuración y ' + esc(state.etiquetas.familia) + '/' + esc(state.etiquetas.grupo) + '.</p>' +
+    '<div class="modal-actions"><button type="button" class="btn ghost" onclick="closeModal()">Cancelar</button><button type="submit" class="btn primary">Crear catálogo</button></div>' +
+  '</form>';
+  openModal('Catálogo en blanco', body);
+}
+function submitBlankWizard(ev){
+  ev.preventDefault();
+  var nombre = document.getElementById('bw_nombre').value.trim();
+  if(!nombre) return false;
+  var formatoInput = document.querySelector('input[name="bw_formato"]:checked');
+  var familias = document.getElementById('bw_familias').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+  var grupos = document.getElementById('bw_grupos').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+  closeModal();
+  loadCatalog({
+    catalogo: nombre, formato: formatoInput ? formatoInput.value : 'cientifica',
+    etiquetas: {nombre:'Nombre', simbolo:'Símbolo', masa:'Valor numérico', carga:'Carga', familia:'Familia', grupo:'Grupo', pais:'Origen', anyo:'Año'},
+    familias: familias, grupos: grupos, fichas: []
+  }, {dirty:true});
+  toast('Catálogo creado. Ya puedes añadir fichas.','success');
+  return false;
+}
+
+function exportCatalog(){
+  var data = {
+    catalogo: state.catalogo, formato: state.formato, etiquetas: state.etiquetas,
+    familias: state.familias, grupos: state.grupos,
+    fichas: state.fichas.map(function(f){ return { nombre:f.nombre, simbolo:f.simbolo, masa:f.masa, carga:f.carga, familia:f.familia, grupo:f.grupo, pais:f.pais, anyo:f.anyo }; })
+  };
+  var blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  var safeName = (state.catalogo||'catalogo').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'') || 'catalogo';
+  a.href = url; a.download = safeName + '.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  ui.dirty = false;
+  render();
+  toast('Catálogo exportado.','success');
+}
+
+function validateCatalogShape(data){
+  if(!data || typeof data !== 'object') throw new Error('formato no reconocido');
+  if(!Array.isArray(data.fichas)) throw new Error('falta la lista de fichas');
+  if(data.formato && ['cientifica','fija'].indexOf(data.formato)===-1) throw new Error('notación no válida');
+  if(data.familias && !Array.isArray(data.familias)) throw new Error('familias no válidas');
+  if(data.grupos && !Array.isArray(data.grupos)) throw new Error('grupos no válidos');
+  for(var i=0;i<data.fichas.length;i++){
+    var f = data.fichas[i];
+    if(typeof f.nombre !== 'string' || typeof f.simbolo !== 'string') throw new Error('una ficha tiene datos incompletos');
+  }
+}
+function importCatalog(ev){
+  var file = ev.target.files[0];
+  if(!file) return;
+  guardUnsaved(function(){
+    var reader = new FileReader();
+    reader.onload = function(){
+      try {
+        var data = JSON.parse(reader.result);
+        validateCatalogShape(data);
+        loadCatalog(data, {dirty:false});
+        toast('Catálogo importado.','success');
+      } catch(err){
+        toast('No se pudo leer el archivo: ' + err.message, 'error');
+      }
+    };
+    reader.onerror = function(){ toast('Error leyendo el archivo.','error'); };
+    reader.readAsText(file);
+  });
+  ev.target.value = '';
+}
+
+function openModal(title, bodyHtml){
+  var root = document.getElementById('modalRoot');
+  root.innerHTML = '<div class="modal-overlay" onclick="if(event.target===this) closeModal()">' +
+    '<div class="modal-panel" role="dialog" aria-modal="true" aria-label="' + esc(title) + '">' +
+      '<div class="modal-head"><h3>' + esc(title) + '</h3><button class="icon-btn" onclick="closeModal()" aria-label="Cerrar">' + ICONS.close + '</button></div>' +
+      '<div class="modal-body">' + bodyHtml + '</div>' +
+    '</div></div>';
+  document.body.style.overflow = 'hidden';
+  var first = root.querySelector('input,select,textarea,button');
+  if(first) first.focus();
+}
+function closeModal(){
+  document.getElementById('modalRoot').innerHTML = '';
+  document.body.style.overflow = '';
+}
+
+function toast(msg, type){
+  type = type || 'info';
+  var root = document.getElementById('toastRoot');
+  var el = document.createElement('div');
+  el.className = 'toast toast-' + type;
+  el.textContent = msg;
+  root.appendChild(el);
+  requestAnimationFrame(function(){ el.classList.add('show'); });
+  setTimeout(function(){
+    el.classList.remove('show');
+    setTimeout(function(){ el.remove(); }, 250);
+  }, 3200);
+}
+
+document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape'){ closeModal(); } });
+window.addEventListener('beforeunload', function(ev){ if(ui.dirty){ ev.preventDefault(); ev.returnValue = ''; } });
+
+loadCatalog(PRESETS.particulas, {dirty:false});
+</script>

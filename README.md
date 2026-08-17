@@ -1,8 +1,8 @@
 # Gestor de Fichas — versión con interfaz gráfica
 
-Evolución con interfaz gráfica de **[Particulas_gestion](PEGA_AQUI_EL_ENLACE_AL_REPO_ORIGINAL)**, el gestor de fichas de partículas en C++ por consola. Esta versión reimplementa el mismo motor —catálogos configurables, familias y grupos, notación científica o de coma fija, búsquedas— como una aplicación web de un único archivo HTML, con pestañas, formularios y botones en lugar de un menú numerado por teclado.
+Evolución con interfaz gráfica de **[Particulas_gestion](https://github.com/Ryu-DIL/Particulas_gestion)**, el gestor de fichas de partículas en C++ por consola. Esta versión reimplementa el mismo motor —catálogos configurables, familias y grupos, notación científica o de coma fija, búsquedas— como una aplicación web de un único archivo HTML, con pestañas, formularios y botones en lugar de un menú numerado por teclado.
 
-> 🔗 ¿Buscas la versión original en C++ (consola, ficheros `.ini`/`.txt`)? Está en **[Particulas_gestion](PEGA_AQUI_EL_ENLACE_AL_REPO_ORIGINAL)**. Este repositorio es su evolución con interfaz gráfica.
+> 🔗 ¿Buscas la versión original en C++ (consola, ficheros `.ini`/`.txt`)? Está en **[Particulas_gestion](https://github.com/Ryu-DIL/Particulas_gestion)**. Este repositorio es su evolución con interfaz gráfica.
 
 ## ✨ Qué es
 
@@ -75,11 +75,3 @@ Los datos viven en memoria mientras usas la app; para conservarlos entre sesione
 ├── index.html   # aplicación completa (HTML + CSS + JS)
 └── README.md
 ```
-
-## Créditos
-
-Basado en el proyecto original en C++ (2020) de Jeremías Daniel Ioannu Lapido, David Baena Asensio, Óscar Rodríguez López e Irene Sánchez Carvajal — ver [Particulas_gestion](PEGA_AQUI_EL_ENLACE_AL_REPO_ORIGINAL).
-
-## Licencia
-
-Pendiente de elegir — si quieres que el proyecto sea reutilizable libremente, una licencia habitual para este tipo de herramienta es MIT.
